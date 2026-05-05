@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audyt FP&amp;A dla SaaS i Software House&#x2019;ów — Incro</title>
+<meta name="description" content="Checklista audytu FP&amp;A dla SaaS i Software House&#x2019;ów — 6 obszarów, 56 punktów, plus 9-punktowy test gotowości.">
+<style>
+  :root {
+    /* Incro brand */
+    --navy: #252e5c;
+    --navy-dark: #1c2349;
+    --navy-deep: #141a36;
+    --cyan: #1fb5e9;
+    --cyan-dark: #1f98d5;
+    --gradient: linear-gradient(135deg, #252e5c 0%, #1fb5e9 100%);
+    --gradient-soft: linear-gradient(135deg, rgba(37,46,92,0.04) 0%, rgba(31,181,233,0.06) 100%);
+
+    /* Surfaces */
+    --bg: #f7f8fb;
+    --surface: #ffffff;
+    --surface-2: #fafbfd;
+    --border: #e4e7ee;
+    --border-strong: #d3d8e2;
+
+    /* Text */
+    --text: #0f1530;
+    --text-soft: #3f4664;
+    --text-muted: #6c7390;
+    --text-dim: #9098b0;
+
+    /* Status */
+    --ok: #15876b;
+    --ok-bg: #dcf5ec;
+    --ok-border: #a3e2cc;
+    --warn: #b86a16;
+    --warn-bg: #fdf1de;
+    --warn-border: #f3cf94;
+    --bad: #b8324c;
+    --bad-bg: #fde2e7;
+    --bad-border: #f3a8b6;
+
+    --shadow-sm: 0 1px 2px rgba(20,26,54,0.04), 0 2px 6px rgba(20,26,54,0.04);
+    --shadow: 0 2px 4px rgba(20,26,54,0.05), 0 8px 24px rgba(20,26,54,0.06);
+    --shadow-lg: 0 4px 8px rgba(20,26,54,0.06), 0 16px 40px rgba(20,26,54,0.10);
+
+    --radius: 8px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 18px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
+    font-size: 15.5px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a { color: var(--cyan-dark); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ===================== Top bar ===================== */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .topbar-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex; align-items: center; gap: 24px;
+  }
+
+  .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand img { height: 30px; width: auto; display: block; }
+
+  .brand-tag {
+    font-size: 12px; color: var(--text-muted);
+    padding-left: 12px; border-left: 1px solid var(--border);
+    margin-left: 4px; line-height: 1.3;
+  }
+  .brand-tag b { color: var(--text); font-weight: 600; }
+
+  .topbar-cta {
+    margin-left: auto;
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 14px;
+    background: var(--navy); color: white;
+    border-radius: 8px;
+    font-size: 13px; font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .topbar-cta:hover { background: var(--navy-dark); color: white; text-decoration: none; }
+
+  /* ===================== Hero ===================== */
+  main {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+
+  .hero {
+    margin-bottom: 32px;
+    padding: 36px 40px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0;
+    height: 4px; background: var(--gradient);
+  }
+  .hero h1 {
+    font-size: clamp(26px, 4.2vw, 36px);
+    font-weight: 800;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    margin: 0 0 14px;
+    color: var(--navy);
+  }
+  .hero h1 .accent {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--cyan-dark);
+  }
+  .hero .lead {
+    font-size: 17px;
+    color: var(--text-soft);
+    max-width: 720px;
+    margin: 0 0 20px;
+    line-height: 1.55;
+  }
+  .hero-meta {
+    display: flex; flex-wrap: wrap;
+    gap: 8px 16px;
+    font-size: 13px; color: var(--text-muted);
+  }
+  .hero-meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .hero-meta span::before {
+    content: ""; width: 4px; height: 4px;
+    background: var(--cyan); border-radius: 50%;
+  }
+
+  /* ===================== Anchor nav ===================== */
+  .anchor-nav {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 8px 12px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .anchor-nav a {
+    padding: 6px 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+    border-radius: 999px;
+    transition: all 0.15s;
+  }
+  .anchor-nav a:hover {
+    background: var(--surface-2);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .anchor-nav a.test-link {
+    background: var(--navy);
+    color: white;
+    margin-left: auto;
+    font-weight: 600;
+  }
+  .anchor-nav a.test-link:hover { background: var(--navy-dark); color: white; }
+
+  /* ===================== Section heading ===================== */
+  .section-head-h2 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cyan-dark);
+    margin: 36px 0 14px;
+  }
+
+  /* ===================== Sections ===================== */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .sec-head {
+    padding: 18px 24px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 16px;
+    user-select: none;
+    background: var(--surface);
+    transition: background 0.15s;
+  }
+  .sec-head:hover { background: var(--surface-2); }
+
+  .sec-num {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: var(--navy);
+    color: white;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 15px;
+  }
+
+  .sec-title-wrap { flex: 1; min-width: 0; }
+
+  .sec-title-wrap h3 {
+    margin: 0 0 4px;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.005em;
+  }
+
+  .sec-meta {
+    font-size: 12.5px;
+    color: var(--text-muted);
+  }
+
+  .sec-toggle {
+    flex-shrink: 0;
+    color: var(--text-dim);
+    font-size: 22px; line-height: 1;
+    transition: transform 0.2s;
+  }
+  .section.open .sec-toggle { transform: rotate(45deg); }
+
+  .sec-body {
+    padding: 4px 24px 18px;
+    border-top: 1px solid var(--border);
+    display: none;
+  }
+  .section.open .sec-body { display: block; }
+
+  /* Subheading inside section */
+  .subhead {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cyan-dark);
+    margin: 18px 0 4px;
+  }
+
+  /* ===================== Checklist items (read-only) ===================== */
+  .check-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .check-list li {
+    position: relative;
+    padding: 10px 0 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .check-list li:last-child { border-bottom: none; }
+
+  .check-list li::before {
+    content: "";
+    position: absolute;
+    left: 4px; top: 16px;
+    width: 14px; height: 14px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 4px;
+    background: var(--surface);
+  }
+
+  .check-list li::after {
+    content: "";
+    position: absolute;
+    left: 8px; top: 19px;
+    width: 6px; height: 10px;
+    border: solid var(--cyan-dark);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+  }
+
+  .check-list li:hover::before { border-color: var(--cyan); }
+
+  /* ===================== Test (self-assessment) ===================== */
+  .test-section {
+    margin-top: 48px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 36px 40px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+
+  .test-eyebrow {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cyan-dark);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+
+  .test-section h2 {
+    font-size: clamp(22px, 3.6vw, 28px);
+    font-weight: 800;
+    margin: 0 0 10px;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+  }
+
+  .test-section .test-lead {
+    font-size: 15.5px;
+    color: var(--text-soft);
+    max-width: 640px;
+    margin: 0 0 20px;
+  }
+
+  .test-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .stat-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--text-soft);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .stat-pill b {
+    font-weight: 700;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-pill.ok b { color: var(--ok); }
+  .stat-pill.warn b { color: var(--warn); }
+  .stat-pill.bad b { color: var(--bad); }
+
+  .test-progress-wrap {
+    height: 6px;
+    background: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 26px;
+  }
+  .test-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--gradient);
+    transition: width 0.3s ease;
+  }
+
+  /* Test items */
+  .t-item {
+    padding: 16px 18px;
+    margin: 10px 0;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    transition: all 0.15s;
+  }
+
+  .t-item.s-ok { border-left-color: var(--ok); background: linear-gradient(90deg, var(--ok-bg) 0%, var(--surface-2) 30%); }
+  .t-item.s-warn { border-left-color: var(--warn); background: linear-gradient(90deg, var(--warn-bg) 0%, var(--surface-2) 30%); }
+  .t-item.s-bad { border-left-color: var(--bad); background: linear-gradient(90deg, var(--bad-bg) 0%, var(--surface-2) 30%); }
+
+  .t-item-head {
+    display: flex; align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .t-num {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: var(--navy);
+    color: white;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 13px;
+  }
+
+  .t-text {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--text);
+    padding-top: 4px;
+  }
+
+  .t-actions {
+    display: flex; flex-wrap: wrap;
+    gap: 6px; align-items: center;
+    padding-left: 40px;
+  }
+
+  .status-btn {
+    padding: 6px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 12.5px;
+    color: var(--text-soft);
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 0.12s;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .status-btn:hover { border-color: var(--border-strong); color: var(--text); }
+  .status-btn .icon {
+    display: inline-flex; width: 16px; height: 16px;
+    align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; border-radius: 4px;
+  }
+  .status-btn .icon.ok { background: var(--ok-bg); color: var(--ok); }
+  .status-btn .icon.warn { background: var(--warn-bg); color: var(--warn); }
+  .status-btn .icon.bad { background: var(--bad-bg); color: var(--bad); }
+
+  .status-btn.active.ok { background: var(--ok-bg); color: var(--ok); border-color: var(--ok-border); }
+  .status-btn.active.warn { background: var(--warn-bg); color: var(--warn); border-color: var(--warn-border); }
+  .status-btn.active.bad { background: var(--bad-bg); color: var(--bad); border-color: var(--bad-border); }
+
+  /* ===================== CTA ===================== */
+  .cta-section {
+    margin-top: 32px;
+    padding: 40px;
+    background: var(--gradient);
+    border-radius: var(--radius-xl);
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  .cta-section::before, .cta-section::after {
+    content: ""; position: absolute; border-radius: 50%; pointer-events: none;
+  }
+  .cta-section::before { width: 280px; height: 280px; top: -100px; right: -80px; background: rgba(255,255,255,0.08); }
+  .cta-section::after { width: 180px; height: 180px; bottom: -60px; left: -40px; background: rgba(255,255,255,0.06); }
+  .cta-section .cta-inner { position: relative; z-index: 1; }
+  .cta-section h2 {
+    font-size: clamp(22px, 3.4vw, 28px);
+    font-weight: 800;
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+  }
+  .cta-section .summary {
+    font-size: 16px;
+    opacity: 0.92;
+    margin: 0 auto 24px;
+    max-width: 580px;
+    line-height: 1.55;
+  }
+  .cta-section .summary b {
+    color: white; font-weight: 700;
+    border-bottom: 2px solid rgba(255,255,255,0.4);
+  }
+  .cta-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: white;
+    color: var(--navy);
+    padding: 16px 32px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 15.5px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  }
+  .cta-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.22);
+    text-decoration: none;
+  }
+  .cta-sub { margin-top: 14px; font-size: 13px; opacity: 0.82; }
+
+  /* ===================== Float bar ===================== */
+  .float-bar {
+    position: fixed;
+    right: 24px; bottom: 24px;
+    display: flex; gap: 8px;
+    z-index: 60;
+  }
+  .float-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13.5px; font-weight: 600;
+    color: var(--text-soft);
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: var(--shadow);
+    display: inline-flex; align-items: center; gap: 7px;
+    transition: all 0.15s;
+  }
+  .float-btn:hover { border-color: var(--cyan); color: var(--cyan-dark); }
+  .float-btn.primary { background: var(--navy); color: white; border-color: var(--navy); }
+  .float-btn.primary:hover { background: var(--navy-dark); color: white; }
+
+  /* ===================== Footer ===================== */
+  footer {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 13.5px;
+    line-height: 1.6;
+    text-align: center;
+  }
+  footer .foot-logo {
+    height: 24px;
+    width: auto;
+    margin-bottom: 12px;
+    opacity: 0.85;
+  }
+  footer p { margin: 4px 0; }
+
+  /* ===================== Responsive ===================== */
+  @media (max-width: 720px) {
+    .topbar-inner { padding: 12px 16px; gap: 12px; }
+    .topbar-cta { padding: 6px 10px; font-size: 12px; }
+    .brand-tag { display: none; }
+    main { padding: 28px 16px 96px; }
+    .hero { padding: 28px 22px; }
+    .anchor-nav { padding: 6px 8px; }
+    .anchor-nav a { font-size: 12px; padding: 5px 10px; }
+    .anchor-nav a.test-link { margin-left: 0; }
+    .sec-head { padding: 14px 18px; gap: 12px; }
+    .sec-num { width: 30px; height: 30px; font-size: 13px; }
+    .sec-title-wrap h3 { font-size: 15.5px; }
+    .sec-body { padding: 4px 14px 12px; }
+    .test-section { padding: 26px 22px; }
+    .t-item { padding: 14px 14px; }
+    .t-actions { padding-left: 0; }
+    .cta-section { padding: 28px 22px; }
+    .float-bar { right: 12px; bottom: 12px; }
+    .float-btn { padding: 8px 12px; font-size: 12.5px; }
+  }
+
+  @media print {
+    .topbar, .anchor-nav, .float-bar, .cta-section, .status-btn { display: none; }
+    .section, .sec-body { display: block !important; }
+    .check-list li { break-inside: avoid; }
+    main { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== TOP BAR ===================== -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="https://incro.pl" target="_blank" rel="noopener" aria-label="Incro">
+      <img src="data:image/png;base64,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" alt="Incro" />
+    </a>
+    <span class="brand-tag"><b>Audyt FP&amp;A</b><br>SaaS &middot; Software Houses</span>
+
+    <a class="topbar-cta" href="https://outlook.office.com/bookwithme/user/3d37a35c16544b90b3a31e8dd90418cd@incro.pl?anonymous&amp;ismsaljsauthenabled&amp;ep=plink" target="_blank" rel="noopener">
+      Umów spotkanie →
+    </a>
+  </div>
+</div>
+
+<main>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <h1>Audyt FP&amp;A <span class="accent">dla SaaS i Software House&#x2019;ów</span></h1>
+  <p class="lead">Praktyczna checklista, którą stosujemy w Incro przy audytach FP&amp;A spółek SaaS i Software House&#x2019;ów w Polsce i UE. Sześć obszarów &mdash; od polityki rozpoznania przychodu po jakość danych pod AI &mdash; i krótki, dziewięciopunktowy test gotowości na końcu.</p>
+  <div class="hero-meta">
+    <span>6 obszarów</span>
+    <span>56 punktów</span>
+    <span>Test gotowości &middot; 9 punktów</span>
+    <span>Bez logowania, bez maila</span>
+  </div>
+</header>
+
+<!-- ===================== ANCHOR NAV ===================== -->
+<nav class="anchor-nav" aria-label="Spis treści">
+  <a href="#sec-1">1. Revenue Recognition</a>
+  <a href="#sec-2">2. Mieszane strumienie</a>
+  <a href="#sec-3">3. Rentowność</a>
+  <a href="#sec-4">4. SaaS KPI</a>
+  <a href="#sec-5">5. Dane i operacje</a>
+  <a href="#sec-6">6. Regulacje PL</a>
+  <a href="#test" class="test-link">Test gotowości →</a>
+</nav>
+
+<h2 class="section-head-h2">Checklista &mdash; 6 obszarów, 56 punktów</h2>
+
+<!-- ===================== SECTION 1 ===================== -->
+<section class="section open" id="sec-1">
+  <div class="sec-head">
+    <span class="sec-num">1</span>
+    <div class="sec-title-wrap">
+      <h3>Rozpoznanie przychodu</h3>
+      <div class="sec-meta">20 punktów &middot; 6 podobszarów</div>
+    </div>
+    <span class="sec-toggle">+</span>
+  </div>
+  <div class="sec-body">
+    <div class="subhead">1.1 Polityka rachunkowości</div>
+    <ul class="check-list">
+      <li>Spisana i systematycznie stosowana polityka rozpoznania przychodu zgodna ze stosowanymi standardami rachunkowości (UoR lub MSSF).</li>
+      <li>Każdy typ kontraktu (subskrypcja, usługi rozliczane czasem i materiałem, kontrakt ryczałtowy, wdrożenie, wsparcie, szkolenia) ma jednoznacznie określony moment i sposób rozpoznania przychodu.</li>
+      <li>Polityka rachunkowości w obszarze przychodów zatwierdzona przez zarząd lub audytora zewnętrznego, aktualizowana nie rzadziej niż raz w roku.</li>
+    </ul>
+
+    <div class="subhead">1.2 Roczne i wieloletnie kontrakty SaaS</div>
+    <ul class="check-list">
+      <li>Roczny abonament 12-miesięczny rozpoznawany w rachunku wyników liniowo 1/12 miesięcznie, a nie jednorazowo w momencie wystawienia faktury.</li>
+      <li>Saldo przychodów przyszłych okresów (rozliczeń międzyokresowych przychodów) uzgadniane miesięcznie z kwotami zafakturowanymi, ale jeszcze nie rozpoznanymi w wyniku.</li>
+      <li>Miesięczny raport zestawiający kwoty zafakturowane, rozpoznane w wyniku oraz pozostałe do rozpoznania jest dostępny i analizowany.</li>
+      <li>Rabat udzielony przy umowach 24/36-miesięcznych rozkładany proporcjonalnie przez cały okres umowy, a nie odnoszony w całości w pierwszym roku.</li>
+    </ul>
+
+    <div class="subhead">1.3 Opłaty wstępne, wdrożeniowe i onboardingowe</div>
+    <ul class="check-list">
+      <li>Opłata wstępna jednoznacznie zaklasyfikowana: jako odrębne świadczenie albo element subskrypcji &mdash; z wynikającymi z tego konsekwencjami księgowymi.</li>
+      <li>Opłata wstępna ujęta jako element subskrypcji rozkładana przez przewidywany okres relacji z klientem (zwykle 24-36 miesięcy), a nie tylko przez pierwotny okres umowy.</li>
+      <li>Usługi wdrożeniowe rozpoznawane spójną metodą: na podstawie poniesionych nakładów (godziny lub koszty) albo osiągniętych etapów odbioru.</li>
+    </ul>
+
+    <div class="subhead">1.4 Modyfikacje kontraktów</div>
+    <ul class="check-list">
+      <li>Rejestr modyfikacji kontraktów (data, typ zmiany, wpływ na ARR) prowadzony w systemie, a nie doraźnie w arkuszu kalkulacyjnym.</li>
+      <li>Zmiana planu w trakcie okresu rozliczeniowego obsługiwana w spójny sposób: nowa cena uśredniona dla pozostałych miesięcy albo zastosowana dopiero od kolejnego okresu.</li>
+      <li>Zawieszenie subskrypcji ujmowane jako zobowiązanie wobec klienta, ze spisaną zasadą rozliczenia po wznowieniu.</li>
+    </ul>
+
+    <div class="subhead">1.5 Konwersja z okresu próbnego na płatną subskrypcję</div>
+    <ul class="check-list">
+      <li>Moment rozpoczęcia rozpoznawania przychodu po okresie próbnym jednoznacznie zdefiniowany (data konwersji albo pierwsza faktura).</li>
+      <li>Okres próbny wliczony w roczną przedpłatę traktowany konsekwentnie: skraca okres rozpoznania albo przesuwa początek okresu rozliczeniowego.</li>
+    </ul>
+
+    <div class="subhead">1.6 Rabaty, marketplace, white-label</div>
+    <ul class="check-list">
+      <li>Cena katalogowa (cena sprzedaży na zasadach standardowych) udokumentowana dla każdego produktu i okresowo weryfikowana.</li>
+      <li>Prowizje marketplace&#x2019;u (AWS, Azure, Salesforce AppExchange) ujmowane spójnie w rachunku wyników.</li>
+      <li>Przychód z umów white-label rozpoznawany po właściwej stronie (klient końcowy vs partner), zgodnie z treścią kontraktu i charakterem transakcji.</li>
+      <li>Rabaty wolumenowe rozliczane konsekwentnie: od kolejnych zamówień po przekroczeniu progu albo z korektą wcześniej rozpoznanego przychodu.</li>
+      <li>Przychód zmienny (oparty o zużycie, premie wynikowe) szacowany jednolitą metodą i aktualizowany co miesiąc.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== SECTION 2 ===================== -->
+<section class="section" id="sec-2">
+  <div class="sec-head">
+    <span class="sec-num">2</span>
+    <div class="sec-title-wrap">
+      <h3>Mieszane strumienie przychodów (SaaS + usługi)</h3>
+      <div class="sec-meta">6 punktów</div>
+    </div>
+    <span class="sec-toggle">+</span>
+  </div>
+  <div class="sec-body">
+    <ul class="check-list">
+      <li>Rachunek wyników rozdzielony na linie biznesowe: licencje rekurencyjne, usługi rozliczane czasem i materiałem, kontrakty ryczałtowe, opłaty wstępne, wsparcie, doradztwo.</li>
+      <li>Każda linia biznesowa ma osobno raportowany przychód, koszt własny i marżę brutto.</li>
+      <li>Czas niewykorzystany (tzw. ławka rezerwowa) wyodrębniony w rachunku wyników jako koszt projektowy lub koszt ogólny &mdash; nie jest ukryty w kosztach wynagrodzeń.</li>
+      <li>Wykorzystanie zespołu mierzone miesięcznie, z poziomem alarmowym zdefiniowanym wewnętrznie, a nie ustalanym po fakcie.</li>
+      <li>Zmiany struktury przychodów (np. spadek udziału licencji z 60% do 40%) widoczne w trendzie miesięcznym i nie giną w konsolidacji.</li>
+      <li>Cennik usług projektowych i licencji dla tego samego klienta zdefiniowany, udokumentowany i przeglądany cyklicznie.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== SECTION 3 ===================== -->
+<section class="section" id="sec-3">
+  <div class="sec-head">
+    <span class="sec-num">3</span>
+    <div class="sec-title-wrap">
+      <h3>Rentowność per klient i per produkt</h3>
+      <div class="sec-meta">7 punktów</div>
+    </div>
+    <span class="sec-toggle">+</span>
+  </div>
+  <div class="sec-body">
+    <ul class="check-list">
+      <li>Koszt własny na poziomie produktu (hosting, czas zespołu deweloperskiego, wsparcie, prowizje płatnicze) alokowany konsekwentną metodą, a nie pomijany w kosztach ogólnych.</li>
+      <li>Marża brutto liczona na poziomie produktu, modułu i planu (np. Free, Pro, Enterprise), a nie tylko zbiorczo dla całej firmy.</li>
+      <li>Koncentracja przychodów na pięciu największych klientach znana i monitorowana, z wewnętrznie zdefiniowanym poziomem ryzyka.</li>
+      <li>Czas wsparcia poświęcany na 10% najbardziej obciążających klientów mierzony miesięcznie i alokowany kosztowo do tych klientów.</li>
+      <li>Marża każdego segmentu klientów (mali, średni, duzi) raportowana osobno, a nie tylko jako średnia ważona dla całej bazy.</li>
+      <li>Krzywe retencji kohortowej dla 6, 12, 24 i 36 miesięcy aktualizowane co kwartał.</li>
+      <li>Koszt pozyskania klienta liczony osobno dla każdego kanału (organiczny, płatny, sprzedaż wychodząca, polecenia), a nie jako jedna uśredniona wartość.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== SECTION 4 ===================== -->
+<section class="section" id="sec-4">
+  <div class="sec-head">
+    <span class="sec-num">4</span>
+    <div class="sec-title-wrap">
+      <h3>Wskaźniki specyficzne dla SaaS</h3>
+      <div class="sec-meta">11 punktów &middot; 4 podobszary</div>
+    </div>
+    <span class="sec-toggle">+</span>
+  </div>
+  <div class="sec-body">
+    <div class="subhead">4.1 Wskaźniki przychodu</div>
+    <ul class="check-list">
+      <li>MRR, ARR oraz przychód księgowy uzgodnione miesięcznie, ze świadomością różnic między nimi (np. ARR rosnącej spółki nie zrówna się z przychodem księgowym z ostatnich 12 miesięcy).</li>
+      <li>Miesięczny rejestr pokazuje obok siebie wartości zakontraktowane, zafakturowane i rozpoznane w wyniku &mdash; a nie tylko jedną z tych liczb.</li>
+      <li>Rozbicie zmiany MRR na nowych klientów, rozszerzenia, redukcje i odejścia raportowane co miesiąc.</li>
+    </ul>
+
+    <div class="subhead">4.2 Retencja</div>
+    <ul class="check-list">
+      <li>Retencja przychodu netto (NRR) liczona na kohortach klientów, a nie jako jedna uśredniona wartość dla całej bazy.</li>
+      <li>Odejścia liczone osobno w ujęciu liczby klientów i w ujęciu wartości przychodu &mdash; różnica między tymi miarami pokazuje skuteczność rozszerzeń.</li>
+    </ul>
+
+    <div class="subhead">4.3 Unit economics</div>
+    <ul class="check-list">
+      <li>Koszt pozyskania klienta obejmuje pełen koszt sprzedaży i marketingu: wynagrodzenia zespołu, narzędzia, koszty contentu &mdash; nie tylko płatne media.</li>
+      <li>Stosunek LTV do CAC monitorowany na bieżąco i interpretowany w kontekście dynamiki spółki.</li>
+      <li>Okres zwrotu z kosztu pozyskania klienta (CAC payback) raportowany w miesiącach.</li>
+    </ul>
+
+    <div class="subhead">4.4 Gotówka i wypalanie</div>
+    <ul class="check-list">
+      <li>Tempo wypalania gotówki (burn rate) liczone na bazie kasowej, a nie jako księgowa strata na wyniku.</li>
+      <li>Pas startowy (runway) liczony jako stan gotówki podzielony przez miesięczne wypalanie, z uwzględnieniem ściągalności należności i salda przychodów przyszłych okresów &mdash; nie jako uproszczony iloraz.</li>
+      <li>Cykl rotacji należności (DSO) i odpis na należności wątpliwe liczone realnie i raportowane co miesiąc.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== SECTION 5 ===================== -->
+<section class="section" id="sec-5">
+  <div class="sec-head">
+    <span class="sec-num">5</span>
+    <div class="sec-title-wrap">
+      <h3>Architektura danych i operacje</h3>
+      <div class="sec-meta">8 punktów</div>
+    </div>
+    <span class="sec-toggle">+</span>
+  </div>
+  <div class="sec-body">
+    <ul class="check-list">
+      <li>Lista systemów źródłowych (billing, ERP, CRM, księgowość, bramka płatnicza, narzędzia BI) udokumentowana z osobą odpowiedzialną za każdy z nich.</li>
+      <li>Wskazany jeden, nadrzędny system będący źródłem prawdy o przychodzie &mdash; rozstrzyga w razie rozbieżności między pozostałymi.</li>
+      <li>Miesięczne uzgodnienie ścieżki: zamówienie → faktura → płatność → rozpoznanie w wyniku, z wyznaczoną osobą odpowiedzialną i znanym czasem trwania.</li>
+      <li>Zamknięcie miesiąca trwa nie dłużej niż 10 dni roboczych i nie jest zależne od pojedynczej osoby w zespole finansowym.</li>
+      <li>Wielowalutowość: kontrakty w EUR i USD raportowane w walucie funkcjonalnej i sprawozdawczej, różnice kursowe ujmowane w wyniku co miesiąc.</li>
+      <li>Pulpit raportowy spółki w znacznej części zautomatyzowany &mdash; nie jest to 100% arkusza odświeżanego ręcznie.</li>
+      <li>Ślad zmian w wyniku (kto, kiedy, dlaczego) prowadzony systemowo, a nie odtwarzany z pamięci.</li>
+      <li>Dane finansowe w stanie pozwalającym narzędziom analitycznym i AI odpowiadać na pytania bez halucynacji &mdash; istnieje czysta, znormalizowana warstwa danych.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== SECTION 6 ===================== -->
+<section class="section" id="sec-6">
+  <div class="sec-head">
+    <span class="sec-num">6</span>
+    <div class="sec-title-wrap">
+      <h3>Polski kontekst regulacyjny</h3>
+      <div class="sec-meta">4 punkty</div>
+    </div>
+    <span class="sec-toggle">+</span>
+  </div>
+  <div class="sec-body">
+    <ul class="check-list">
+      <li>KSeF 2.0: system bilingowy poprawnie generuje e-faktury dla subskrypcji, rozliczeń proporcjonalnych, zmian planu i korekt w trakcie okresu.</li>
+      <li>Korekty subskrypcyjne przechodzą walidację KSeF bez błędów &mdash; nie wymagają ręcznej obsługi w każdym przypadku.</li>
+      <li>Próg stawki CIT 9% / 19% monitorowany na bieżąco, z alertem przed przekroczeniem.</li>
+      <li>Estoński CIT to świadoma decyzja (stosujemy lub nie), z udokumentowanymi limitami i konsekwencjami wybranego wariantu.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== TEST GOTOWOŚCI ===================== -->
+<section class="test-section" id="test">
+  <span class="test-eyebrow">Test gotowości</span>
+  <h2>9-punktowy test gotowości finansowej</h2>
+  <p class="test-lead">Dziewięć kluczowych punktów wybranych spośród całej checklisty. Zaznacz przy każdym, jak to wygląda u Was. Po ostatnim oznaczeniu zobaczysz krótkie podsumowanie z rekomendacją.</p>
+
+  <div class="test-stats">
+    <span class="stat-pill">Oznaczone <b id="statTotal">0</b>/<b id="statAll">9</b></span>
+    <span class="stat-pill ok">Solidne <b id="statOk">0</b></span>
+    <span class="stat-pill warn">Częściowe <b id="statWarn">0</b></span>
+    <span class="stat-pill bad">Do poprawy <b id="statBad">0</b></span>
+  </div>
+
+  <div class="test-progress-wrap" aria-hidden="true">
+    <div class="test-progress-fill" id="progressFill"></div>
+  </div>
+
+  <div class="t-item" data-id="t1">
+    <div class="t-item-head">
+      <span class="t-num">1</span>
+      <p class="t-text">Roczny abonament 12-miesięczny rozpoznawany w rachunku wyników liniowo 1/12 miesięcznie, zgodnie ze stosowanymi standardami rachunkowości (UoR lub MSSF).</p>
+    </div>
+    <div class="t-actions"></div>
+  </div>
+
+  <div class="t-item" data-id="t2">
+    <div class="t-item-head">
+      <span class="t-num">2</span>
+      <p class="t-text">Opłaty wstępne, wdrożeniowe i onboardingowe rozłożone przez przewidywany okres relacji z klientem (zwykle 24-36 miesięcy), a nie księgowane jednorazowo z góry.</p>
+    </div>
+    <div class="t-actions"></div>
+  </div>
+
+  <div class="t-item" data-id="t3">
+    <div class="t-item-head">
+      <span class="t-num">3</span>
+      <p class="t-text">Rachunek wyników rozdziela linie biznesowe (licencje, usługi rozliczane czasem, kontrakty ryczałtowe, wsparcie), z osobnym przychodem, kosztem własnym i marżą brutto.</p>
+    </div>
+    <div class="t-actions"></div>
+  </div>
+
+  <div class="t-item" data-id="t4">
+    <div class="t-item-head">
+      <span class="t-num">4</span>
+      <p class="t-text">Koncentracja przychodów na pięciu największych klientach znana, monitorowana i utrzymywana w ramach wewnętrznie zdefiniowanego progu ryzyka.</p>
+    </div>
+    <div class="t-actions"></div>
+  </div>
+
+  <div class="t-item" data-id="t5">
+    <div class="t-item-head">
+      <span class="t-num">5</span>
+      <p class="t-text">Retencja przychodu netto liczona na kohortach klientów, a nie jako jedna uśredniona wartość dla całej bazy.</p>
+    </div>
+    <div class="t-actions"></div>
+  </div>
+
+  <div class="t-item" data-id="t6">
+    <div class="t-item-head">
+      <span class="t-num">6</span>
+      <p class="t-text">Okres zwrotu z kosztu pozyskania klienta (CAC payback) znany i monitorowany na bieżąco.</p>
+    </div>
+    <div class="t-actions"></div>
+  </div>
+
+  <div class="t-item" data-id="t7">
+    <div class="t-item-head">
+      <span class="t-num">7</span>
+      <p class="t-text">Wskazany jeden, nadrzędny system będący źródłem prawdy o przychodzie &mdash; rozstrzyga w razie rozbieżności między pozostałymi.</p>
+    </div>
+    <div class="t-actions"></div>
+  </div>
+
+  <div class="t-item" data-id="t8">
+    <div class="t-item-head">
+      <span class="t-num">8</span>
+      <p class="t-text">Kontrakty wielowalutowe (EUR, USD) raportowane w walucie funkcjonalnej i sprawozdawczej, różnice kursowe ujmowane w wyniku co miesiąc.</p>
+    </div>
+    <div class="t-actions"></div>
+  </div>
+
+  <div class="t-item" data-id="t9">
+    <div class="t-item-head">
+      <span class="t-num">9</span>
+      <p class="t-text">KSeF 2.0: walidacja przechodzi bez błędów dla wszystkich typów faktur (subskrypcje, rozliczenia proporcjonalne, korekty).</p>
+    </div>
+    <div class="t-actions"></div>
+  </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section class="cta-section" id="cta">
+  <div class="cta-inner">
+    <h2 id="ctaHeadline">Chcesz omówić swój wynik?</h2>
+    <p class="summary" id="ctaSummary">Po przejściu testu zobaczysz tu krótkie podsumowanie. Niezależnie od wyniku &mdash; jeśli któreś punkty wymagają komentarza albo chcesz porównać Wasz stan z innymi SaaS-ami w Polsce, zarezerwuj 30 minut. Bez slajdów, bez nacisku.</p>
+    <a class="cta-btn" href="https://outlook.office.com/bookwithme/user/3d37a35c16544b90b3a31e8dd90418cd@incro.pl?anonymous&amp;ismsaljsauthenabled&amp;ep=plink" target="_blank" rel="noopener">
+      Umów 30-min spotkanie discovery →
+    </a>
+    <p class="cta-sub">Bezpłatnie · niezobowiązująco · termin online</p>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <img class="foot-logo" src="data:image/png;base64,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" alt="Incro" />
+  <p><b style="color:var(--text)">Incro Sp. z o. o.</b> &middot; Rondo ONZ 1, 00-124 Warszawa</p>
+  <p><a href="https://incro.pl" target="_blank" rel="noopener">incro.pl</a> &middot; <a href="mailto:office@incro.pl">office@incro.pl</a></p>
+  <p style="font-size:12px; margin-top:14px; color:var(--text-dim)">Audyt FP&amp;A &middot; v4.0 &middot; Maj 2026</p>
+</footer>
+
+</main>
+
+<!-- ===================== FLOATING ACTION BAR ===================== -->
+<div class="float-bar">
+  <button class="float-btn" id="resetBtn" title="Wyczyść test gotowości">↺ Reset testu</button>
+  <button class="float-btn primary" id="exportBtn" title="Eksportuj checklist + wynik testu">↓ Eksport raport</button>
+</div>
+
+<script>
+(function() {
+  const state = {};   // {tId: 'ok'|'warn'|'bad'}
+  const tItems = document.querySelectorAll('.t-item');
+  const TOTAL = tItems.length;
+
+  // inject status buttons into each test item
+  tItems.forEach(it => {
+    const actions = it.querySelector('.t-actions');
+    actions.innerHTML =
+      '<button class="status-btn" data-status="ok" title="Solidne — mamy poukładane"><span class="icon ok">✓</span>Solidne</button>' +
+      '<button class="status-btn" data-status="warn" title="Częściowo — jest, ale nie do końca"><span class="icon warn">~</span>Częściowo</button>' +
+      '<button class="status-btn" data-status="bad" title="Do poprawy — brakuje albo nie wiemy"><span class="icon bad">!</span>Do poprawy</button>';
+  });
+
+  // section toggle
+  document.querySelectorAll('.section').forEach(sec => {
+    sec.querySelector('.sec-head').addEventListener('click', () => {
+      sec.classList.toggle('open');
+    });
+  });
+
+  // status click
+  document.addEventListener('click', (e) => {
+    const sBtn = e.target.closest('.status-btn');
+    if (!sBtn) return;
+    const item = sBtn.closest('.t-item');
+    if (!item) return;
+    const id = item.dataset.id;
+    const newStatus = sBtn.dataset.status;
+    const prevStatus = state[id];
+
+    if (prevStatus === newStatus) {
+      delete state[id];
+      item.classList.remove('s-ok', 's-warn', 's-bad');
+      item.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active', 'ok', 'warn', 'bad'));
+    } else {
+      state[id] = newStatus;
+      item.classList.remove('s-ok', 's-warn', 's-bad');
+      item.classList.add('s-' + newStatus);
+      item.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active', 'ok', 'warn', 'bad'));
+      sBtn.classList.add('active', newStatus);
+    }
+    update();
+  });
+
+  const statTotal = document.getElementById('statTotal');
+  const statOk = document.getElementById('statOk');
+  const statWarn = document.getElementById('statWarn');
+  const statBad = document.getElementById('statBad');
+  const progressFill = document.getElementById('progressFill');
+  const ctaHeadline = document.getElementById('ctaHeadline');
+  const ctaSummary = document.getElementById('ctaSummary');
+
+  function update() {
+    let ok = 0, warn = 0, bad = 0;
+    Object.values(state).forEach(s => {
+      if (s === 'ok') ok++;
+      else if (s === 'warn') warn++;
+      else if (s === 'bad') bad++;
+    });
+    const total = ok + warn + bad;
+
+    statTotal.textContent = total;
+    statOk.textContent = ok;
+    statWarn.textContent = warn;
+    statBad.textContent = bad;
+    progressFill.style.width = (total / TOTAL * 100) + '%';
+
+    // Dynamic CTA copy based on result
+    if (total === 0) {
+      ctaHeadline.textContent = 'Chcesz omówić swój wynik?';
+      ctaSummary.innerHTML = 'Po przejściu testu zobaczysz tu krótkie podsumowanie. Niezależnie od wyniku &mdash; jeśli któreś punkty wymagają komentarza albo chcesz porównać Wasz stan z innymi SaaS-ami w Polsce, zarezerwuj 30 minut. Bez slajdów, bez nacisku.';
+    } else if (total < TOTAL) {
+      ctaHeadline.textContent = 'Test wciąż w trakcie';
+      ctaSummary.innerHTML = 'Oznaczone <b>' + total + '/' + TOTAL + '</b> punktów. Przejdź wszystkie 9, żeby zobaczyć finalną rekomendację. Albo umów spotkanie już teraz &mdash; pogadamy o tym, co już zaznaczone.';
+    } else if (bad === 0 && warn <= 1) {
+      ctaHeadline.textContent = 'Macie podstawy poukładane.';
+      ctaSummary.innerHTML = '<b>' + ok + '/9 punktów solidnie</b>' + (warn ? ', ' + warn + ' do dopracowania' : '') + '. To poziom, na którym AI w finansach realnie działa, bo dane są wystarczająco czyste. Jeśli chcesz przegadać te „częściowe" punkty albo porównać się z innymi SaaS-ami z naszego portfela, wpadnij na 30 minut.';
+    } else if (bad <= 1 && warn <= 3) {
+      ctaHeadline.textContent = 'Kilka luk, sporo dobrego.';
+      ctaSummary.innerHTML = '<b>' + bad + '</b> &mdash; do poprawy, <b>' + warn + '</b> &mdash; częściowo, <b>' + ok + '</b> &mdash; solidnie. To, co widzimy w 7 na 10 SaaS-ów Waszej skali. Trzytygodniowy audyt zwykle domyka temat bez zmiany systemów &mdash; pracujemy na eksporcie z Waszego billingu, ERP i księgowości. Jeśli pojawi się potrzeba zmian w narzędziach, dostaniecie konkretną rekomendację.';
+    } else if (bad <= 3) {
+      ctaHeadline.textContent = 'Sporo do poukładania.';
+      ctaSummary.innerHTML = '<b>' + bad + ' do poprawy</b>, ' + warn + ' częściowych. Bez ich domknięcia decyzje cenowe i raporty dla zarządu opierają się na intuicji. Jeśli przyjdzie due diligence, runda lub nowy CFO &mdash; ten poziom danych nie przejdzie. Warto zacząć od audytu w najbliższych tygodniach.';
+    } else {
+      ctaHeadline.textContent = 'Krytyczne — warto zacząć od podstaw.';
+      ctaSummary.innerHTML = '<b>' + bad + ' z 9 punktów do poprawy</b>. Bez fundamentu nie ma sensu rozmawiać o AI w finansach ani o nowej rundzie &mdash; modele halucynują na niepełnych lub niespójnych danych, a inwestor wycofuje się po pierwszym pytaniu. Zacznijmy od audytu, zanim podejmiecie kolejne duże decyzje cenowe lub kadrowe.';
+    }
+  }
+
+  // reset
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    if (Object.keys(state).length > 0 && !confirm('Wyczyścić zaznaczenia testu?')) return;
+    for (const k in state) delete state[k];
+    tItems.forEach(it => {
+      it.classList.remove('s-ok', 's-warn', 's-bad');
+      it.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active', 'ok', 'warn', 'bad'));
+    });
+    update();
+    document.getElementById('test').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  // export
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    const lines = [];
+    const today = new Date().toISOString().slice(0, 10);
+    lines.push('AUDYT FP&A DLA SaaS I SOFTWARE HOUSE\u2019ÓW — RAPORT');
+    lines.push('Incro · ' + today);
+    lines.push('');
+    lines.push('============================================================');
+    lines.push('  CHECKLISTA');
+    lines.push('============================================================');
+    lines.push('');
+
+    document.querySelectorAll('.section').forEach(sec => {
+      const num = sec.querySelector('.sec-num').textContent.trim();
+      const title = sec.querySelector('.sec-title-wrap h3').textContent.trim();
+      lines.push('SEKCJA ' + num + '. ' + title.toUpperCase());
+      lines.push('');
+
+      const body = sec.querySelector('.sec-body');
+      body.querySelectorAll(':scope > .subhead, :scope > .check-list > li').forEach(el => {
+        if (el.classList.contains('subhead')) {
+          lines.push('  ' + el.textContent.trim());
+        } else {
+          lines.push('    [ ] ' + el.textContent.trim());
+        }
+      });
+      lines.push('');
+    });
+
+    lines.push('============================================================');
+    lines.push('  TEST GOTOWOŚCI (9 punktów)');
+    lines.push('============================================================');
+    lines.push('');
+
+    let ok = 0, warn = 0, bad = 0;
+    tItems.forEach((it, idx) => {
+      const id = it.dataset.id;
+      const status = state[id];
+      const num = it.querySelector('.t-num').textContent.trim();
+      const text = it.querySelector('.t-text').textContent.trim();
+      let mark = '[ ] nieoznaczone';
+      if (status === 'ok') { mark = '[✓ solidne]'; ok++; }
+      else if (status === 'warn') { mark = '[~ częściowo]'; warn++; }
+      else if (status === 'bad') { mark = '[! do poprawy]'; bad++; }
+      lines.push('  ' + num + '. ' + mark);
+      lines.push('     ' + text);
+      lines.push('');
+    });
+
+    lines.push('PODSUMOWANIE TESTU');
+    lines.push('  Solidne:    ' + ok + '/9');
+    lines.push('  Częściowe:  ' + warn + '/9');
+    lines.push('  Do poprawy: ' + bad + '/9');
+    lines.push('  Razem oznaczone: ' + (ok + warn + bad) + '/9');
+    lines.push('');
+    lines.push('============================================================');
+    lines.push('Następny krok: 30-min discovery z Incro');
+    lines.push('https://outlook.office.com/bookwithme/user/3d37a35c16544b90b3a31e8dd90418cd@incro.pl?anonymous&ismsaljsauthenabled&ep=plink');
+
+    const text = lines.join('\n');
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'audyt-fpa-saas-incro-' + today + '.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  update();
+})();
+</script>
+
+</body>
+</html>
